@@ -15,3 +15,5 @@ docker/
 .docker
 ./docker
 *.docker
+
+npm-debug.log
