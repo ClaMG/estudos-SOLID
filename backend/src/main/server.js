@@ -10,6 +10,9 @@ async function startserver() {
         await sequelize.authenticate();
         console.log('Conexão bem sucedida com o banco de dados')
 
+        await sequelize.sync({ force: true }); 
+        console.log('Modelos sincronizados.');
+
         app.listen(PORT, () => {
             console.log(`Servidor rodando em http://localhost:${PORT}`)
         });
