@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
-import dbConfig from '../../../../config/configDB';
+import dbConfig from '../../../../config/configDB.js';
 
-export const User = dbConfig.define('User',{
+const User = dbConfig.define('User',{
         id:{
             type: DataTypes.INTEGER,
             primaryKey: true,
@@ -24,10 +24,6 @@ export const User = dbConfig.define('User',{
             type: DataTypes.STRING,
             allowNull: true,
         },
-        cnpj:{
-            type: DataTypes.STRING,
-            allowNull: true,
-        },
         adimin:{
             type: DataTypes.BOOLEAN,
             allowNull: false,
@@ -38,3 +34,5 @@ export const User = dbConfig.define('User',{
     tableName: 'Users',  
     freezeTableName: true // Impede o Sequelize de tentar pluralizar o nome
 });
+
+export default User;

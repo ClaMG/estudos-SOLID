@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
-
+import routerAdmin from '../adpter/entry/routes/routesAdmin.js'; 
+import routerUser from '../adpter/entry/routes/routesUser.js';
 const app = express();
 
 app.use(cors());
@@ -14,8 +15,10 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 app.use(express.json());
-
-//rotas
+app.get('/oi', (req, res) => res.send("O app.js está vivo!"));
+console.log('Verificando roteador:', typeof routerAdmin);
+app.use('/admin', routerAdmin)
+app.use('/user', routerUser)
 
 app.use((err, req, res, next) => {
     console.error('Erro não tratado:', err.stack);

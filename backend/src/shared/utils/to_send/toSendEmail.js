@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer';
-import configEmai from '../../../config/configEmai';
+import configEmai from '../../../config/configEmai.js';
 
 class MailProvider {
     constructor() {

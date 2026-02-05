@@ -1,16 +1,14 @@
 import app from './app.js';
 import dbConfig from '../config/configDB.js';
-import { Sequelize } from 'sequelize';
 
 const PORT = process.env.PORT
 
 async function startserver() {
     try {
-        const sequelize = new Sequelize(dbConfig);
-        await sequelize.authenticate();
+        await dbConfig.authenticate();
         console.log('Conexão bem sucedida com o banco de dados')
 
-        await sequelize.sync({ force: true }); 
+        await dbConfig.sync({ force: true });
         console.log('Modelos sincronizados.');
 
         app.listen(PORT, () => {

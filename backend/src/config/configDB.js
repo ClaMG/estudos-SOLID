@@ -1,25 +1,21 @@
 import 'dotenv/config';//carregar o .env
 
-export default{
-  // Drive 
-  dialect: process.env.DB_DIALECT, 
-  
-  // Endereço e porta 
-  host: process.env.DB_HOST,
-  port: process.env.DB_PORT,
-  
-  // Credenciais
-  username: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
+import { Sequelize } from 'sequelize';
 
-  // Configurações extras
-  define: {
-    timestamps: false,        
-    underscored: true,        
-    underscoredAll: true
-  },
-  
-  logging: false
+const connection = new Sequelize(
+  process.env.DB_NAME,     // Banco de dados
+  process.env.DB_USER,     // Usuário
+  process.env.DB_PASSWORD, // Senha
+  {
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    dialect: process.env.DB_DIALECT, // Aqui ele espera uma string 'mysql', 'postgres', etc.
+    logging: false,
+    define: {
+      timestamps: false,
+      underscored: true,
+    }
+  }
+);
 
-};
+export default connection;
