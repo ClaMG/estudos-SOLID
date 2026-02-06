@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
-import routerAdmin from '../adpter/entry/routes/routesAdmin.js'; 
-import routerUser from '../adpter/entry/routes/routesUser.js';
+import routerAdmin from '../adpter/inbound/routes/routesAdmin.js'; 
+import routerUser from '../adpter/inbound/routes/routesUser.js';
 const app = express();
 
 app.use(cors());
@@ -15,14 +15,13 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 app.use(express.json());
-app.get('/oi', (req, res) => res.send("O app.js está vivo!"));
-console.log('Verificando roteador:', typeof routerAdmin);
+
 app.use('/admin', routerAdmin)
 app.use('/user', routerUser)
 
 app.use((err, req, res, next) => {
     console.error('Erro não tratado:', err.stack);
-    res.status(500).json({ message: 'Ocorreu um erro interno no servidor.' });
+    res.status(500).json({ message: 'Ocorreu um erro interno no servidor.', stack: err.stack });
 });
 
 export default app;

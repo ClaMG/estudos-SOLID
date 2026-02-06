@@ -1,14 +1,13 @@
-import {RegiterUserdto} from '../dto/dtoRegister.js'
-
-
-export class ControlerRegister{
-    constructor(registerUseCase) {
-        this.useCase = registerUseCase;
+import {DeletUserdto} from '../dto/dtoDelete.js'
+ 
+export class ControlerDelete{
+    constructor(deleteUseCase) {
+        this.useCase = deleteUseCase;
     }
 
     async handle(req, res) {
         try {
-            const userDTO = new RegiterUserdto(req.body);
+            const userDTO = new DeletUserdto(req.body);
 
             const result = await this.useCase.execute(userDTO);
             return res.status(201).json(result);

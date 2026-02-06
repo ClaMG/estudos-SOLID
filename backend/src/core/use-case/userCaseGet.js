@@ -1,12 +1,14 @@
-export class GetUseCase {
-    constructor(repositoryPort) {
-        this.repository = repositoryPort;
+import {IUserGetUseCase} from '../port/serve/portUserCase.js'
+export class GetUseCase extends IUserGetUseCase{
+    constructor(repository) {
+        super();
+        this.repository = repository;
     }
 
     async execute() {
-        const users = await this.repository.findAll();
+        const users = await this.repository.findAllUsers();
 
-        // 2. Lógica de negócio: Ocultar dados sensíveis (exemplo)
+        //Ocultar dados sensíveis 
         return users.map(users => {
             const { password, ...safeData } = users;
             return safeData;

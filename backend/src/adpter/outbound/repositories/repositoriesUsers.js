@@ -1,5 +1,4 @@
 import { where } from 'sequelize'
-import User from './models/usersModel.js'
 import { IAdapterDb } from '../../../core/port/db/portRespostory.js'
 
 export class UserRepositories extends IAdapterDb{
@@ -35,6 +34,22 @@ export class UserRepositories extends IAdapterDb{
             raw: true 
         })
     }
+
+    async findById(id){
+        return await this.model.findOne({
+            where: {id: id},
+            raw: true 
+        })
+    }
+
+    async findByEmail(email) {
+        return await this.model.findOne({
+            where: {email: email},
+            raw: true 
+        })
+    }
+
+    
 
     
 }

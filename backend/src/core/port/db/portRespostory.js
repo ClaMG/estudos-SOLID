@@ -14,6 +14,11 @@ export class IAdapterDb {
     async findByUser(user) {
         throw new Error("O método findByUser(user) deve ser implementado pelo adaptador de saída.");
     }
-    
+    async findById(id) {
+        throw new Error("O método findById(id) deve ser implementado pelo adaptador de saída.");
+    }
+    async findByEmail(email) {
+        throw new Error("O método findByEmail(email) deve ser implementado pelo adaptador de saída.");
+    }
     
 }

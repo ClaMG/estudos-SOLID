@@ -1,6 +1,8 @@
-import {validateEmail} from '../../shared/utils/validators/validatorEmail.js'
-import {validateCPF} from '../../shared/utils/validators/validatorCpf.js'
-import {IUserRegisterUseCase} from '../port/serve/portRegister.js'
+import {IUserRegisterUseCase} from '../port/serve/portUserCase.js'
+import {User} from '../entities/entitiesUser.js'
+import {generateRandomPassword} from '../../shared/utils/security/randomPassword.js'
+import {hashPassword} from '../../shared/utils/security/encryptPassword.js'
+import MailProvider from '../../shared/utils/to_send/toSendEmail.js'
 
 export class RegisterUseCase extends IUserRegisterUseCase{
     constructor(repository){
@@ -9,23 +11,45 @@ export class RegisterUseCase extends IUserRegisterUseCase{
     }
 
     async execute(dto){
-        const validatorEmail = validateEmail(data.email)
-        if (!validatorEmail){
-            throw new Error("O email deve ser valido");
-        }
+       const userEntity = new User(dto);
 
-        const validatorCpf = validateCPF(data.cpf)
-
-        if (!validatorCpf){
-            throw new Error("O cpf deve ser valido");
-        }
-
-        const userExists = await this.repository.findByUser(dto.user);
+        const userExists = await this.repository.findByUser(userEntity.user);
         
         if (userExists) {
             throw new Error("Este nome de usuário já está em uso.");
         }
+        
+        const emailExists = await this.repository.findByEmail(userEntity.email);
+        
+        if (emailExists) {
+            throw new Error("Este email já está em uso.");
+        }
+        const passwordRandom = generateRandomPassword(8)
+        const passwordSecurity = await hashPassword(passwordRandom)
 
-        return await this.repository.insertUser(dto);   
+        const sendEmails = await MailProvider.sendEmail(userEntity.email, userEntity.user, passwordRandom);
+
+        if(!sendEmails){
+            throw new Error("Erro ao enviar senha para o email");
+        }
+
+        const data ={
+            user: userEntity.user,
+            password: passwordSecurity,
+            email: userEntity.email,
+            cpf: userEntity.cpf,
+            admin: userEntity.admin
+        }
+
+        const crateUser = await this.repository.createUsers(data)
+
+        if(!crateUser){
+            throw new Error("Erro ao criar usuario");
+        }
+
+        return {
+            mensage:"Usuario criado com sucesso",
+            email: "Verifique o email cadastrado"
+        };   
     }
 }

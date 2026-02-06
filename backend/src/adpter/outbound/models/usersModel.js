@@ -1,5 +1,5 @@
 import { DataTypes } from 'sequelize';
-import dbConfig from '../../../../config/configDB.js';
+import dbConfig from '../../../config/configDB.js';
 
 const User = dbConfig.define('User',{
         id:{
@@ -24,7 +24,7 @@ const User = dbConfig.define('User',{
             type: DataTypes.STRING,
             allowNull: true,
         },
-        adimin:{
+        admin:{
             type: DataTypes.BOOLEAN,
             allowNull: false,
         }

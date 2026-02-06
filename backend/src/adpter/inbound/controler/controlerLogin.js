@@ -1,14 +1,13 @@
-import {ByUserdto} from '../dto/dtoByUser'
- 
+import {LoginUserdto} from '../dto/dtoLogin.js'
 
-export class ControlerRegister{
-    constructor(byUserUseCase) {
-        this.useCase = byUserUseCase;
+export class ControlerLogin{
+    constructor(loginUseCase) {
+        this.useCase = loginUseCase;
     }
 
     async handle(req, res) {
         try {
-            const userDTO = new ByUserdto(req.body);
+            const userDTO = new LoginUserdto(req.body);
 
             const result = await this.useCase.execute(userDTO);
             return res.status(201).json(result);

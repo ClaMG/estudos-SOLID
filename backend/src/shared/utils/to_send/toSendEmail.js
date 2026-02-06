@@ -7,7 +7,7 @@ class MailProvider {
         this.transporter = nodemailer.createTransport(configEmai);
     }
 
-    async enviarBoasVindas(emailRecipient, nameUser, passwordUser) {
+    async sendEmail(emailRecipient, nameUser, passwordUser) {
         try {
             const info = await this.transporter.sendMail({
                 from: `"MemberBuddy" <${configEmai.auth.user}>`, // Quem envia
